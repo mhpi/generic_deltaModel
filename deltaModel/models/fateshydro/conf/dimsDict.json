@@ -1,0 +1,13 @@
+{
+    "numlevsclass"   : 10,
+    "numpft"         : 10,
+    "nshell"         : 1,
+    "n_hypool_leaf"  : 1,
+    "n_hypool_stem"  : 1,
+    "n_hypool_troot" : 1,
+    "n_hypool_aroot" : 1,
+    "nlevsoil"       : 5,
+    "aggN"           : 10,
+    "nlevsoi_hyd_max": 40
+
+}

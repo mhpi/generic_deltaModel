@@ -1,0 +1,104 @@
+
+device    : cuda:3
+seed      : 0
+dtime     : 3600
+init_mode : 2
+
+settings :
+          at_leaf: False
+          maxiter: 20
+          ftol1  : 1e-3
+          ftol2  : 0.1
+          ftol3  : 1e-8
+          xtol1  : 1e-3
+          xtol2  : 0.1
+          xtol3  : 1e-8
+          alpha  : 0.75
+          Model  : 0
+
+# DEFINE Hyperparameters
+batch_size    : 100
+warm_up       : 24
+rho           : 100
+NN_model_name : LSTM
+Diff_model_name : DiffMod
+hidden_size   : 256
+dropout       : 0.4
+EPOCHS        : 50
+saveEpoch     : 50
+EPOCH_testing : 50
+loss_function : RmseLoss
+norm_regime   : 2
+
+# SELECT WRF and WKF for plant and soil
+plant_wrf_type: tfs_type
+plant_wkf_type: tfs_type
+soil_wrf_type : campbell_type
+soil_wkf_type : campbell_type #"van_genuchten_type"    : 2,"campbell_type"         : 3, "smooth1_campbell_type" : 31, "smooth2_campbell_type" : 32,"tfs_type"              : 1
+
+# SELECT mean type for aggregating rhizoshpere layers
+aggmeth   : rhizlayer_aggmeth_none
+mean_type : harmonic_mean    #"arithmetic_mean": 0,"harmonic_mean"  : 1
+
+# SELECT pedotransfer function
+ipedof   : cosby_1984_table5 #"cosby_1984_table5": 0,"cosby_1984_table4": 1,"noilhan_lacarrere_1995": 2
+
+# SET Working directories
+attr_path   : /data/dmf5963/diffFatesHydro/input_data/attributes/test_cases/attributes_subset_100.csv   #test_cases/attributes_GS_train.csv #  #attributes.csv #
+forcing_path: /data/dmf5963/diffFatesHydro/input_data/forcing/differentiable_model/subset/subset_100                                #LSTM_model/GS/Train
+T_T_path    : /data/dmf5963/diffFatesHydro/input_data/md_data/train_test/train_test_period_subset_100.xlsx         #train_period_GS.xlsx #train_test_period.xlsx
+output_model: /data/dmf5963/diffFatesHydro/model/DiffModel/
+
+# SET variable lists
+target      : [
+                sapf
+                ]
+
+varT_PBM    : [
+                SM_0_kgm2,
+                SM_1_kgm2,
+                SM_2_kgm2,
+                SM_3_kgm2,
+                SM_4_kgm2,
+                air_tempk,
+                RH,
+                can_press,
+                can_o2_ppress,
+                co2_ppress,
+                PARin,
+                ws
+                ]
+varT_NN     : [
+                SM_0,
+                co2_ppress,
+                air_temp,
+                precip,
+                RH,
+                VPD,
+                sw_in,
+                ws
+            ]
+  
+varC_NN     : [
+                pl_dbh,
+                pl_height,
+                pl_leaf_area,
+                pl_sapw_area,
+                clay_0-5cm_mean,
+                silt_0-5cm_mean,
+                sand_0-5cm_mean,
+                soc_0-5cm_mean,
+                si_elev,
+                si_mat,
+                si_map,
+                st_density
+                ]
+
+out_NN_num   : 9 #16
+out_NN_names : ['p50'] #factor # ['p50', 'avuln'] # ['pDyn'] #
+out_NN_ranges:
+              min: [0.0, -10.0,-10.0,-10.0,-10.0,-10.0,-10.0,-10.0,-10.0]
+              max: [1.0, -0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5]
+
+
+

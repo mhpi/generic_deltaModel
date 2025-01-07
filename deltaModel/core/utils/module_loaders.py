@@ -4,7 +4,7 @@ from json import load
 from pathlib import Path
 from typing import Dict, List, Type
 
-from hydroDL2 import load_model as load_hydro_model
+# from hydroDL2 import load_model as load_hydro_model
 from torch.nn import Module
 
 
@@ -34,8 +34,8 @@ def load_model(model: str, ver_name: str = None) -> Module:
     Module
         The uninstantiated model.
     """
-    if model in ['HBV', 'HBV1_1p', 'PRMS']:
-        return load_hydro_model(model, ver_name)
+    # if model in ['HBV', 'HBV1_1p', 'PRMS']:
+    #     return load_hydro_model(model, ver_name)
     
     # Path to the models directory
     parent_dir = get_dir('models')
@@ -66,7 +66,8 @@ def load_model(model: str, ver_name: str = None) -> Module:
         ]
         if not classes:
             raise ImportError(f"Model version '{model}' not found.")
-        cls = getattr(module, classes[-1])
+        # cls = getattr(module, classes[-1])
+        cls = getattr(module, model)
     
     return cls
 

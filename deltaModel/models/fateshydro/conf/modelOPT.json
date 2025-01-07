@@ -1,0 +1,50 @@
+{
+    "rhizlayer_aggmeth":{
+
+        "rhizlayer_aggmeth_none"      : 1,
+        "rhizlayer_aggmeth_combine12" : 2,
+        "rhizlayer_aggmeth_balN"      : 3
+
+    },
+    "hydr_solver":{
+
+        "hydr_solver_1DTaylor": 1,
+        "hydr_solver_2DPicard": 2,
+        "hydr_solver_2DNewton": 3
+
+    },
+    "HLM":{
+
+        "cosby_1984_table5": 0,
+        "cosby_1984_table4": 1,
+        "noilhan_lacarrere_1995": 2
+
+    },
+    "wrf_model": {
+
+        "van_genuchten_type"    : 2,
+        "campbell_type"         : 3,
+        "smooth1_campbell_type" : 31,
+        "smooth2_campbell_type" : 32,
+        "tfs_type"              : 1
+
+    },
+    "stomatal_model":{
+
+        "ballberry_model": 1,
+        "medlyn_model"   : 2
+
+    },
+    "photo_model":{
+
+        "photosynth_acclim_model_none": 1,
+        "photosynth_acclim_model_kumarathunge_etal_2019": 2
+
+    },
+    "mean_type":{
+
+        "arithmetic_mean": 0,
+        "harmonic_mean"  : 1
+    }
+
+}

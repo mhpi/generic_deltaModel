@@ -1,79 +1,137 @@
 defaults:
     - _self_
     - hydra: settings
-    - observations: none
+    - observations: sapfluxnet  # camels_531, camels_671
 
 
 ## General -------------------------------#
-mode: train
+mode: train  # train, test, train_test
 multimodel_type: none
-random_seed: 111111
+random_seed: 42 #111111
 device: cuda
-gpu_id: 0
+gpu_id: 4
 
-data_loader: base_loader
-data_sampler: base_sampler
-trainer: trainer
+data_loader : fateshydro_loader #hydro_loader
+data_sampler: fateshydro_sampler
+trainer     : fateshydro_trainer #trainer
 
-save_path: ../results
+local_path: /data/dmf5963/GitHub/generic_deltaModel/fateshydro
+save_path: /data/dmf5963/diffFatesHydro/model/DiffModel/gMD
 
 
 ## Training ------------------------------#
 train:
-    start_time: 2000/01/01
-    end_time: 2000/12/31
-    target: [y_var]
-    optimizer: Adadelta
-    batch_size: 100
+    start_time: 1995/03/01
+    end_time: 2018/05/31
+    target: [sapf]
+    optimizer: Adam # Adadelta
+    batch_size: 250
     epochs: 50
     start_epoch: 0
-    save_epoch: 5
-
+    save_epoch: 50
 
 ## Testing -------------------------------#
 test:
-    start_time: 2001/01/01
-    end_time: 2001/12/31
-    batch_size: 100
-    test_epoch: 50
-
+    start_time: 1995/07/31
+    end_time: 2018/05/18
+    batch_size: 10
+    test_epoch: 10
 
 ## Loss Function -------------------------#
 loss_function:
-    model: RmseLossComb
-    
+    model: RmseLoss
+
 
 ## dPL Model -----------------------------#
 dpl_model:
-    rho: 365
-    
+    rho: 720
+
     phy_model:
-        model: [None_model]
-        nmul: 16
-        warm_up: 365
+        nmul: 1
+        model: [fateshydro]  # HBV, HBV_1_1p (1.1p), PRMS, SACSMA_with_snow
+        settings:
+          solver : batchJacobianFD # or batchJacobianFD for finite difference
+          at_leaf: False
+          maxiter: 20
+          ftol1: 1e-3
+          ftol2: 0.1
+          ftol3: 1e-8
+          xtol1: 1e-3
+          xtol2: 0.1
+          xtol3: 1e-8
+          alpha: 0.75
+          Model: 0
+
+        dtime     : 3600
+        init_mode : 2
+        norm_regime   : 2
+        plant_wrf_type: tfs_type
+        plant_wkf_type: tfs_type
+        soil_wrf_type: campbell_type
+        soil_wkf_type: campbell_type #"van_genuchten_type"    : 2,"campbell_type"         : 3, "smooth1_campbell_type" : 31, "smooth2_campbell_type" : 32,"tfs_type"              : 1
+
+        aggmeth: rhizlayer_aggmeth_none
+        mean_type: harmonic_mean    #"arithmetic_mean": 0,"harmonic_mean"  : 1
+
+        # SELECT pedotransfer function
+        ipedof: cosby_1984_table5 #"cosby_1984_table5": 0,"cosby_1984_table4": 1,"noilhan_lacarrere_1995": 2
+        warm_up: 0
+
+        dy_drop: 0.0
         dynamic_params:
-            None_model: [z1, z2]
+            Fateshydro: [p50]
+            num : 1
+            ranges:
+                  min: [0.0] #, -10.0,-10.0,-10.0,-10.0,-10.0,-10.0,-10.0,-10.0]
+                  max: [1.0] #, -0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5]
+
+
+        use_log_norm: [precip, sapf]
+        nearzero: 1e-5
 
         forcings: [
-            x1_var,
-            x2_var
+              SM_0_kgm2,
+              SM_1_kgm2,
+              SM_2_kgm2,
+              SM_3_kgm2,
+              SM_4_kgm2,
+              air_tempk,
+              RH,
+              can_press,
+              can_o2_ppress,
+              co2_ppress,
+              PARin,
+              ws
         ]
-        attributes: [
-            attr1,
-            attr2
-        ]
+        attributes: []
 
     nn_model:
-        model: LSTM
-        dropout: 0.5
-        hidden_size: 256
+        model: LSTM  # LSTM, MLP
+        dropout: 0.4
+        hidden_size: 64
         learning_rate: 1.0
-        
+
         forcings: [
-            x1_var,
-            x2_var
+                    SM_0,
+                    co2_ppress,
+                    air_temp,
+                    precip,
+                    RH,
+                    VPD,
+                    sw_in,
+                    ws
         ]
         attributes: [
-            attr1,
-            attr2
+                pl_dbh,
+                pl_height,
+                pl_leaf_area,
+                pl_sapw_area,
+                clay_0-5cm_mean,
+                silt_0-5cm_mean,
+                sand_0-5cm_mean,
+                soc_0-5cm_mean,
+                si_elev,
+                si_mat,
+                si_map,
+                st_density
         ]

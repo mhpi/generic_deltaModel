@@ -145,12 +145,14 @@ class CudnnLstmModel(torch.nn.Module):
         self.lstm = CudnnLstm(inputSize=hiddenSize, hiddenSize=hiddenSize, dr=dr)
         
         self.linearOut = torch.nn.Linear(hiddenSize, ny)
-        # self.activation_sigmoid = torch.nn.Sigmoid()
+        self.activation_sigmoid = torch.nn.Sigmoid()
 
     def forward(self, x, doDropMC=False, dropoutFalse=False):
         x0 = F.relu(self.linearIn(x))
         self.lstm.flatten_parameters()
         outLSTM, (hn, cn) = self.lstm(x0, doDropMC=doDropMC, dropoutFalse=dropoutFalse)
         out = self.linearOut(outLSTM)
+        # Apply Sigmoid to keep output between 0 and 1 (added by Doaa 25th December 2024)
+        out = self.activation_sigmoid(out)
         return out
     
