@@ -184,3 +184,7 @@ validation/
 */transformer/mask.py
 */transformer/MFFormer.py
 */transformer/MFFormerNewEmbedding.py
+generic_deltamodel/src/dMG/models/neural_networks/transformer/advanced_encoders.py
+generic_deltamodel/src/dMG/models/neural_networks/transformer/mask.py
+generic_deltamodel/src/dMG/models/neural_networks/transformer/MFFormer.py
+generic_deltamodel/src/dMG/models/neural_networks/transformer/MFFormerNewEmbedding.py
