@@ -178,3 +178,9 @@ tmp/
 # Other Directories
 archive/
 validation/
+
+# hidden files
+*/transformer/advanced_encoders.py
+*/transformer/mask.py
+*/transformer/MFFormer.py
+*/transformer/MFFormerNewEmbedding.py
