@@ -192,3 +192,9 @@ src/dMG/models/neural_networks/transformer/advanced_encoders.py
 src/dMG/models/neural_networks/transformer/mask.py
 src/dMG/models/neural_networks/transformer/MFFormer.py
 src/dMG/models/neural_networks/transformer/MFFormerNewEmbedding.py
+#config
+conf/*
+!conf/config.py
+!conf/observations/
+conf/observations/*
+!conf/observations/none.yaml
