@@ -188,3 +188,7 @@ generic_deltamodel/src/dMG/models/neural_networks/transformer/advanced_encoders.
 generic_deltamodel/src/dMG/models/neural_networks/transformer/mask.py
 generic_deltamodel/src/dMG/models/neural_networks/transformer/MFFormer.py
 generic_deltamodel/src/dMG/models/neural_networks/transformer/MFFormerNewEmbedding.py
+src/dMG/models/neural_networks/transformer/advanced_encoders.py
+src/dMG/models/neural_networks/transformer/mask.py
+src/dMG/models/neural_networks/transformer/MFFormer.py
+src/dMG/models/neural_networks/transformer/MFFormerNewEmbedding.py
